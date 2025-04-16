@@ -1,23 +1,23 @@
 {
-    "name": " Phishcord - AI-Powered Phishing Email Detector (Chrome Extension)",
-    "description": "Detects and alerts users about phishing emails in real-time",
-    "version": "1.0",
-    "manifest_version": 3,
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": "hello_extensions.png"
-    },
-    "host_permissions": [
-      "http://127.0.0.1:5000/"
-    ],
-    "permissions": [
-      "activeTab",
-      "scripting"
-    ],
-    "web_accessible_resources": [
-    {
-      "resources": ["popup.js"],
-      "matches": ["http://*/*", "https://*/*"]
-    }
-  ]
+  "name": " Phishcord - AI-Powered Phishing Email Detector (Chrome Extension)",
+  "description": "Detects and alerts users about phishing emails in real-time",
+  "version": "1.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "hello_extensions.png"
+  },
+  "host_permissions": [
+    "http://127.0.0.1:5000/"
+  ],
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "web_accessible_resources": [
+  {
+    "resources": ["popup.js"],
+    "matches": ["http://*/*", "https://*/*"]
   }
+]
+}
