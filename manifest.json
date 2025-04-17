@@ -12,8 +12,13 @@
   ],
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "sidePanel",
+    "tabs"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "web_accessible_resources": [
   {
     "resources": ["popup.js"],
