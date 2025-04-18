@@ -41,7 +41,7 @@ def predict():
 def start_script():
     global imap_process
     if imap_process is None:
-        imap_process = subprocess.Popen(["python", "imap_listener.py"])
+        imap_process = subprocess.Popen(["python3", "imap_listener.py"])
         return "Started IMAP script", 200
     else:
         return "IMAP script already running", 409
