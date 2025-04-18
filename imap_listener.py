@@ -8,6 +8,7 @@ import requests
 user_email = "aymenimap@gmail.com"
 password = "ivnf yavk wonz ffjx"  # gmail app password
 flask_url = "http://127.0.0.1:5000/predict"  # phishing detection API
+notify_url = "http://127.0.0.1:5000/notify"
 
 def check_inbox():
     # connect to gmail
@@ -46,6 +47,15 @@ def check_inbox():
         try:
             response = requests.post(flask_url, json={"text": body})
             result = response.json().get("prediction")
+
+            notify_data = {
+                "subject": message["Subject"],
+                "from": message["From"],
+                "prediction": result
+            }
+
+            notify_response = requests.post(notify_url, json=notify_data)
+            print("Frontend notified:", notify_response.status_code)
 
             if result == 1:
                 print("This email is Phishing.")

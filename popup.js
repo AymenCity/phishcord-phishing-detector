@@ -56,3 +56,20 @@ toggleButton.addEventListener('click', async () => {
     console.error('Failed to connect to Python server:', error);
   }
 });
+
+const stream = new EventSource('http://127.0.0.1:5000/stream');
+
+stream.onmessage = function(event) {
+  const data = JSON.parse(event.data);
+  const resultDiv = document.getElementById('prediction-result-auto');
+
+  const summary = `
+    New Email Detected!
+    Subject: ${data.subject}
+    From: ${data.from}
+    Prediction: ${data.prediction === 1 ? "Phishing" : "Regular"}
+  `;
+
+  resultDiv.innerText = summary;
+};
+
