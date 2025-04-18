@@ -4,12 +4,12 @@
   <title>Phishcord</title>
   <style>
     body {
-      width: 300px;
-      height: 400px;
       margin: 0;
       padding: 10px;
       background-color: #437ecb;
       font-family: Helvetica;
+      display: flex;
+      justify-content: center; /* https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content */
     }
     h1 {
       text-align: center;
@@ -43,16 +43,17 @@
       height: 100px;
       resize: none;
       font-size: 16px;
-      padding: 5px;
+      padding: 10px;
       background-color: #75a0d9;
       color: white;
-      border: 1px solid #ccc;
+      border-radius: 11px;
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     }
     /* https://getcssscan.com/css-buttons-examples */
     button {
       appearance: none;
       background-color: white;
-      border-radius: 2px;
+      border-radius: 11px;
       box-sizing: border-box;
       color: #437ecb;
       cursor: pointer;
@@ -72,8 +73,10 @@
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;
-      width: 100%;
+      width: 70%;
+      margin: 0 auto;
       will-change: transform;
+      transition: transform 0.1s ease-in-out;
     }
 
     button:disabled {
@@ -81,10 +84,7 @@
     }
 
     button:hover {
-      color: #fff;
-      background-color: #75a0d9;
-      box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-      transform: translateY(-2px);
+      transform: scale(1.1);
     }
 
     button:active {
@@ -97,21 +97,31 @@
       margin-top: 20px;
       color: white;
     }
+    hr { /* https://www.w3schools.com/howto/howto_css_style_hr.asp */
+      width: 100%;
+      border: none;
+      border-top: 1px solid white;
+      margin: 10px 0;
+    }
   </style>
 
 </head>
 <body>
-  <h1>PHISHCORD</h1>
-  <h2>AI-Powered Phishing Detector</h2>
-  <!--<img src="img/icon16.jpg" alt="Logo">-->
-  <br>
-  <form id="email-form">
-    <p>Enter the email text:</p>
-    <textarea id="email-text"></textarea>
+  <div class="container">
+    <h1>PHISHCORD</h1>
+    <h2>AI-Powered Phishing Detector</h2>
+    <!--<img src="img/icon16.jpg" alt="Logo">-->
+    <hr>
+    <form id="email-form">
+      <p>Enter the email text:</p>
+      <textarea id="email-text"></textarea>
+      <br>
+      <button id="submit-button">PREDICT</button>
+    </form>
     <br>
-    <button id="submit-button">PREDICT</button>
-  </form>
-  <p id="prediction-result"></p>
+    <hr>
+    <p id="prediction-result"></p>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>
