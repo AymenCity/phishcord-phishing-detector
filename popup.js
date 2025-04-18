@@ -33,3 +33,26 @@ form.addEventListener('submit', async (event) => {
     console.error('Request failed:', error);
   }
 });
+
+let scriptRunning = false;
+
+const toggleButton = document.getElementById('toggle-script');
+
+toggleButton.addEventListener('click', async () => {
+  const endpoint = scriptRunning ? 'stop' : 'start';
+
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
+      method: 'POST'
+    });
+
+    if (response.ok) {
+      scriptRunning = !scriptRunning;
+      toggleButton.textContent = scriptRunning ? 'Stop Script' : 'Start Script';
+    } else {
+      console.error(await response.text());
+    }
+  } catch (error) {
+    console.error('Failed to connect to Python server:', error);
+  }
+});

@@ -3,10 +3,14 @@ from flask import Flask, request, jsonify, render_template
 import pickle
 import numpy as np
 from flask_cors import CORS
+import subprocess
+import os
+import signal
 
 app = Flask(__name__)
 CORS(app)
 
+imap_process = None
 
 with open('svc_model.pkl', 'rb') as f:
     model = pickle.load(f)
@@ -29,6 +33,25 @@ def predict():
         return jsonify({'prediction': int(prediction)})
     else:
         return jsonify({'error': 'Input text not provided.'})
+    
+@app.route('/start', methods=['POST'])
+def start_script():
+    global imap_process
+    if imap_process is None:
+        imap_process = subprocess.Popen(["python", "imap_listener.py"])
+        return "Started IMAP script", 200
+    else:
+        return "IMAP script already running", 409
+
+@app.route('/stop', methods=['POST'])
+def stop_script():
+    global imap_process
+    if imap_process is not None:
+        os.kill(imap_process.pid, signal.SIGTERM)
+        imap_process = None
+        return "Stopped IMAP script", 200
+    else:
+        return "IMAP script not running", 404
 
 if __name__ == '__main__':
     app.run(debug=True)
