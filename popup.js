@@ -71,5 +71,9 @@ stream.onmessage = function(event) {
   `;
 
   resultDiv.innerText = summary;
+
+  // https://stackoverflow.com/questions/27496465/how-can-i-play-sound-in-a-chrome-extension
+  var myAudio = new Audio(chrome.runtime.getURL("audio.mp3"));
+  myAudio.play();
 };
 
