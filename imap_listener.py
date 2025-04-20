@@ -51,7 +51,8 @@ def check_inbox():
             notify_data = {
                 "subject": message["Subject"],
                 "from": message["From"],
-                "prediction": result
+                "prediction": result,
+                "text": body  # Include full email body for LIME
             }
 
             notify_response = requests.post(notify_url, json=notify_data)

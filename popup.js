@@ -4,31 +4,50 @@ const form = document.getElementById('email-form');
 
 
 form.addEventListener('submit', async (event) => {
-
   event.preventDefault();
-
 
   const input = document.getElementById('email-text').value;
 
   try {
- 
+    // 1. Predict
     const response = await fetch('http://127.0.0.1:5000/predict', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({text: input}),
+      body: JSON.stringify({ text: input }),
     });
 
-
     if (response.ok) {
- 
       const prediction = (await response.json()).prediction;
       const resultDiv = document.getElementById('prediction-result');
       resultDiv.innerText = prediction === 0 ? 'The email is Regular' : 'The email is Phishing';
+
+      // 2. Explain
+      const explainResponse = await fetch('http://127.0.0.1:5000/explain', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: input }),
+      });
+
+      if (explainResponse.ok) {
+        const data = await explainResponse.json();
+        const explanationDiv = document.getElementById('lime-explanation');
+        explanationDiv.innerHTML =
+          '<strong>LIME Explanation:</strong><br>' +
+          data.explanation
+            .map(([word, weight]) => `${word}: ${weight.toFixed(3)}`)
+            .join('<br>');
+      } else {
+        console.error('LIME request failed:', explainResponse.status);
+      }
+
     } else {
       console.error('Request failed:', response.status);
     }
+
   } catch (error) {
     console.error('Request failed:', error);
   }
@@ -72,8 +91,18 @@ stream.onmessage = function(event) {
 
   resultDiv.innerText = summary;
 
+    // Show LIME explanation
+    const autoExplainDiv = document.getElementById('lime-explanation-auto');
+    if (data.explanation) {
+      autoExplainDiv.innerHTML =
+        '<strong>LIME Explanation (Auto):</strong><br>' +
+        data.explanation.map(([word, weight]) => `${word}: ${weight.toFixed(3)}`).join('<br>');
+    }
+
   // https://stackoverflow.com/questions/27496465/how-can-i-play-sound-in-a-chrome-extension
   var myAudio = new Audio(chrome.runtime.getURL("audio.mp3"));
   myAudio.play();
 };
+
+
 

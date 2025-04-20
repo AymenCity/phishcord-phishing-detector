@@ -8,6 +8,8 @@ import os
 import signal
 import queue
 import json
+from lime.lime_text import LimeTextExplainer
+from sklearn.pipeline import make_pipeline
 
 app = Flask(__name__)
 CORS(app)
@@ -15,12 +17,19 @@ CORS(app)
 imap_process = None
 prediction_queue = queue.Queue()
 
+# load model and vector
 with open('svc_model.pkl', 'rb') as f:
     model = pickle.load(f)
 
 with open('vector.pkl', 'rb') as f:
     vectorizer = pickle.load(f)
 
+# setup pipeline and lime explainer
+pipeline = make_pipeline(vectorizer, model)
+class_names = ['Regular', 'Phishing']
+explainer = LimeTextExplainer(class_names=class_names)
+
+# routes
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -59,13 +68,20 @@ def stop_script():
 @app.route('/notify', methods=['POST'])
 def notify():
     data = request.json
-    if not data or 'prediction' not in data or 'subject' not in data:
+    if not data or 'prediction' not in data or 'subject' not in data or 'text' not in data:
         return jsonify({'error': 'Invalid data'}), 400
 
-    # Queue it for frontend to pick up
-    
-    prediction_queue.put(data)
-    return jsonify({'status': 'Notification received'}), 200
+    try:
+        # Generate explanation from text
+        exp = explainer.explain_instance(data['text'], pipeline.predict_proba, num_features=6)
+        explanation = exp.as_list()
+        data['explanation'] = explanation  # Add to data dict
+
+        prediction_queue.put(data)
+        return jsonify({'status': 'Notification received'}), 200
+
+    except Exception as e:
+        return jsonify({'error': f"LIME explanation error: {e}"}), 500
 
 @app.route('/stream')
 def stream():
@@ -74,6 +90,19 @@ def stream():
             data = prediction_queue.get()
             yield f"data: {json.dumps(data)}\n\n"
     return Response(event_stream(), mimetype="text/event-stream")
+
+@app.route('/explain', methods=['POST'])
+def explain():
+    text = request.json.get('text')
+    if not text:
+        return jsonify({'error': 'No text provided'}), 400
+
+    try:
+        exp = explainer.explain_instance(text, pipeline.predict_proba, num_features=6)
+        explanation = exp.as_list()
+        return jsonify({'explanation': explanation})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
