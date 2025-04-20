@@ -93,3 +93,16 @@ stream.onmessage = function(event) {
   var myAudio = new Audio(chrome.runtime.getURL("audio.mp3"));
   myAudio.play();
 };
+
+// https://www.tutorialspoint.com/how-to-hide-a-div-in-javascript-on-button-click#:~:text=To%20hide%20a%20div%20in%20JavaScript%20on%20button%20click%2C%20we,display%20the%20hidden%20div%20again.
+// https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056#36349056 
+document.getElementById("hide").addEventListener("click", hide);
+function hide() {
+    var divs = document.getElementById("myDiv");
+    if (divs.style.display === "none") {
+        divs.style.display = "block";
+    } else {
+        divs.style.display = "none";
+    }
+  }
+
