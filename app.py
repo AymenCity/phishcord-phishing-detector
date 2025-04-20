@@ -33,19 +33,25 @@ explainer = LimeTextExplainer(class_names=class_names)
 @app.route('/')
 def home():
     return render_template('index.html')
-
+    
 @app.route('/predict', methods=['POST'])
 def predict():
     text = request.json.get('text')
     if text is not None:
+        # Prediction
         text_transformed = vectorizer.transform([text])
-
         prediction = model.predict(text_transformed)[0]
+        # Explanation
+        exp = explainer.explain_instance(text, pipeline.predict_proba, num_features=6)
+        explanation = exp.as_list()
 
-        return jsonify({'prediction': int(prediction)})
+        return jsonify({
+            'prediction': int(prediction),
+            'explanation': explanation
+        })
     else:
         return jsonify({'error': 'Input text not provided.'})
-    
+
 @app.route('/start', methods=['POST'])
 def start_script():
     global imap_process
@@ -91,18 +97,6 @@ def stream():
             yield f"data: {json.dumps(data)}\n\n"
     return Response(event_stream(), mimetype="text/event-stream")
 
-@app.route('/explain', methods=['POST'])
-def explain():
-    text = request.json.get('text')
-    if not text:
-        return jsonify({'error': 'No text provided'}), 400
-
-    try:
-        exp = explainer.explain_instance(text, pipeline.predict_proba, num_features=6)
-        explanation = exp.as_list()
-        return jsonify({'explanation': explanation})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
