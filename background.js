@@ -1,8 +1,5 @@
-// https://www.youtube.com/watch?v=Jxj_jfh4IDk
-chrome.action.onClicked.addListener(function(tab) {
-  chrome.tabs.create({
-    url: chrome.runtime.getURL('popup.html'),
-    active: true
-  });
-});
-
+// https://developer.chrome.com/docs/extensions/reference/api/sidePanel 
+// Allows users to open the side panel by clicking on the action toolbar icon
+chrome.sidePanel
+  .setPanelBehavior({ openPanelOnActionClick: true })
+  .catch((error) => console.error(error));
