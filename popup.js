@@ -98,7 +98,7 @@ stream.onmessage = function(event) {
 // https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056#36349056 
 document.getElementById("hide").addEventListener("click", hide);
 function hide() {
-    var divs = document.getElementById("myDiv");
+    var divs = document.getElementById("blueDiv");
     if (divs.style.display === "none") {
         divs.style.display = "block";
     } else {
@@ -106,3 +106,11 @@ function hide() {
     }
   }
 
+
+  let isMuted = false;
+
+  document.getElementById('volumeIcon').addEventListener('click', () => {
+    isMuted = !isMuted;
+    document.getElementById('volumeIcon').classList.toggle('fa-volume-up', !isMuted);
+    document.getElementById('volumeIcon').classList.toggle('fa-volume-off', isMuted);
+  });

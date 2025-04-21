@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- https://www.w3schools.com/icons/fontawesome_icons_intro.asp -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Phishcord</title>
   <style>
+    
     body {
       margin: 0;
       padding: 10px;
@@ -103,6 +106,25 @@
       border-top: 1px solid white;
       margin: 10px 0;
     }
+    #blueDiv {
+      height: 40px;
+      resize: none;
+      background-color: #75a0d9;
+      border-radius: 11px;
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+    .volume-toggle {
+      margin-left: 10px;
+      margin-top: 3px;
+      font-size: 33px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.1s ease-in-out;
+    }
+    .volume-toggle:hover {
+      transform: scale(1.15);
+
+    }
   </style>
 
 </head>
@@ -129,8 +151,9 @@
     <div id="lime-explanation"></div>
     <div id="lime-explanation-auto" style="color: white; text-align: center; margin-top: 20px;"></div>
     <button id="hide">Click me</button>
-    <div id="myDiv">
-      <p>Click to hide this div.</p>
+    <div id="blueDiv">
+      <!-- https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-volume-up -->
+      <i id="volumeIcon" class="fa fa-volume-up volume-toggle" aria-hidden="true"></i> 
   </div>
 
 
