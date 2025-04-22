@@ -7,12 +7,13 @@ form.addEventListener('submit', async (event) => {
   const input = document.getElementById('email-text').value;
 
   try {
+    const modelSelect = document.getElementById('model-select').value;
     const response = await fetch('http://127.0.0.1:5000/predict', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text: input }),
+      body: JSON.stringify({ text: input, model: modelSelect }),
     });
 
     if (response.ok) {
@@ -21,11 +22,10 @@ form.addEventListener('submit', async (event) => {
       const explanation = data.explanation;
 
       const resultDiv = document.getElementById('prediction-result');
-      resultDiv.innerText = prediction === 0 ? 'The email is Regular' : 'The email is Phishing';
+      resultDiv.innerText = prediction === 0 ? 'REGULAR' : 'PHISHING';
 
       const explanationDiv = document.getElementById("lime-explanation");
       explanationDiv.innerHTML =
-        '<strong>LIME Explanation:</strong><br>' +
         explanation
           .map(([word, weight]) => 
             `${word}: <span style="color:${weight > 0 ? 'red' : 'green'}">${weight.toFixed(3)}</span>`)
@@ -115,4 +115,18 @@ function hide() {
     } else {
         divs.style.display = "none";
     }
+  }
+
+  document.getElementById("SettingIcon").addEventListener("click", hideSetting);
+
+  function hideSetting() {
+    var divs = document.getElementById("settingDiv");
+    divs.classList.toggle('hidden'); // Toggle the hidden class
+  }
+
+  document.getElementById("manualIcon").addEventListener("click", hideManual);
+
+  function hideManual() {
+    var divs = document.getElementById("manualDiv");
+    divs.classList.toggle('hidden'); // Toggle the hidden class
   }

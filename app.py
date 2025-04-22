@@ -24,11 +24,6 @@ with open('svc_model.pkl', 'rb') as f:
 with open('vector.pkl', 'rb') as f:
     vectorizer = pickle.load(f)
 
-# setup pipeline and lime explainer
-pipeline = make_pipeline(vectorizer, model)
-class_names = ['Regular', 'Phishing']
-explainer = LimeTextExplainer(class_names=class_names)
-
 # routes
 @app.route('/')
 def home():
@@ -37,10 +32,21 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     text = request.json.get('text')
+    model_file = request.json.get('model', 'svc_model.pkl')  # default to SVC
     if text is not None:
+        # Load selected model
+        with open(model_file, 'rb') as f:
+            selected_model = pickle.load(f)
+        
+        # setup pipeline and lime explainer
+        pipeline = make_pipeline(vectorizer, selected_model)
+        class_names = ['Regular', 'Phishing']
+        explainer = LimeTextExplainer(class_names=class_names)
+
+
         # Prediction
         text_transformed = vectorizer.transform([text])
-        prediction = model.predict(text_transformed)[0]
+        prediction = selected_model.predict(text_transformed)[0]
         # Explanation
         exp = explainer.explain_instance(text, pipeline.predict_proba, num_features=6)
         explanation = exp.as_list()
