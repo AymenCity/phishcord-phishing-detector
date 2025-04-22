@@ -49,7 +49,7 @@
       background-color: #75a0d9;
       color: white;
       border-radius: 10px;
-      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+      /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
       border-width: 0;
     }
     /* https://getcssscan.com/css-buttons-examples */
@@ -64,9 +64,11 @@
       text-align: center;
       transition: transform 0.1s ease-in-out;
       outline: none!important;
-      width: 90%;
+      width: 100%;
       margin: 0 auto;
       border-width: 0;
+      position: relative;
+      top: -5px; /* up */ 
     }
 
     button:hover {
@@ -130,7 +132,7 @@
     max-height: 0; /* Remove its height to avoid space being reserved */
     }
     .volume-toggle, .setting-toggle, .manual-toggle, .auto-toggle {
-      margin-left: 20px;
+      margin-left: 35px;
       margin-top: 5px;
       font-size: 30px;
       color: #437ecb;
@@ -175,13 +177,12 @@ select {
     <!--<img src="img/icon16.jpg" alt="Logo">-->
     <div id="blueDiv">
       <!-- https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-volume-up -->
-      <i id="volumeIcon" class="fa fa-volume-up volume-toggle" aria-hidden="true"></i> 
       <i id="SettingIcon" class="fa fa-cog setting-toggle" aria-hidden="true"></i>
       <i id="manualIcon" class="fa fa-keyboard-o manual-toggle" aria-hidden="true"></i>
-      <i id="autoIcon" class="fa fa-toggle-off auto-toggle" aria-hidden="true"></i>
+      <i id="volumeIcon" class="fa fa-volume-up volume-toggle" aria-hidden="true"></i> 
 
     </div>
-    <div id="settingDiv">
+    <div id="settingDiv" class="hidden">
       <hr>
       <h2>CHOOSE A MODEL</h2>
         <select id="model-select">
@@ -191,10 +192,10 @@ select {
           <option value="xg_model.pkl">XGBoost</option>
         </select>
     </div>
-    <hr>
     <div id="manualDiv">
+      <hr>
       <form id="email-form">
-        <h2>ENTER THE EMAIL TEXT</h2>
+        <h2>MANUAL DETECT</h2>
         <textarea id="email-text"></textarea>
         <br>
       <button id= "submit-button"><i class="fa fa-search" aria-hidden="true"></i> PREDICT</button> 
@@ -207,14 +208,12 @@ select {
     </div>
     </div>
     <hr>
-    <button id="toggle-script">Start Script</button>
+    <h2>AUTO DETECT</h2>
+    <button id="toggle-script"><i class="fa fa-play" aria-hidden="true"></i> START</button>
     <p id="prediction-result-auto"></p>
     <div id="lime-explanation-auto" style="color: white; text-align: center; margin-top: 20px;"></div>
-    <button id="hide">Click me</button>
-    <div id="blueDiv">
-      <!-- https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-volume-up -->
-      <i id="volumeIcon" class="fa fa-volume-up volume-toggle" aria-hidden="true"></i> 
-    </div>
+    
+    
 
 
   

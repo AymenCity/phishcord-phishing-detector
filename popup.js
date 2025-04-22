@@ -53,7 +53,7 @@ toggleButton.addEventListener('click', async () => {
 
     if (response.ok) {
       scriptRunning = !scriptRunning;
-      toggleButton.textContent = scriptRunning ? 'Stop Script' : 'Start Script';
+      toggleButton.innerHTML = scriptRunning   ? '<i class="fa fa-stop" aria-hidden="true"></i> STOP' : '<i class="fa fa-play" aria-hidden="true"></i> START';
     } else {
       console.error(await response.text());
     }
@@ -107,15 +107,7 @@ stream.onmessage = function(event) {
 // https://www.tutorialspoint.com/how-to-hide-a-div-in-javascript-on-button-click#:~:text=To%20hide%20a%20div%20in%20JavaScript%20on%20button%20click%2C%20we,display%20the%20hidden%20div%20again.
 // https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056#36349056 
 // shows & hides div
-document.getElementById("hide").addEventListener("click", hide);
-function hide() {
-    var divs = document.getElementById("blueDiv");
-    if (divs.style.display === "none") {
-        divs.style.display = "block";
-    } else {
-        divs.style.display = "none";
-    }
-  }
+
 
   document.getElementById("SettingIcon").addEventListener("click", hideSetting);
 
