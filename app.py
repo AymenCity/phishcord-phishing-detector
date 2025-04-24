@@ -29,11 +29,25 @@ with open('vector.pkl', 'rb') as f:
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/set-model', methods=['POST'])
+def set_model():
+    data = request.get_json()
+    selected_model = data.get('model')
+
+    if selected_model:
+        session['selected_model'] = selected_model
+        # Save to disk
+        with open("current_model.txt", "w") as f:
+            f.write(selected_model)
+        return jsonify({"message": f"Model set to {selected_model}"}), 200
+    else:
+        return jsonify({"error": "No model provided"}), 400
     
 @app.route('/predict', methods=['POST'])
 def predict():
     text = request.json.get('text')
-    model_file = request.json.get('selected_model', 'svc_model.pkl')  # default to SVC
+    model_file = request.json.get('model', 'svc_model.pkl')  # default to SVC
     if text is not None:
         # Load selected model
         with open(model_file, 'rb') as f:
