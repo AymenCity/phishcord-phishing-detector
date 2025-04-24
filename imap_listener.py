@@ -9,6 +9,15 @@ user_email = "aymenimap@gmail.com"
 password = "ivnf yavk wonz ffjx"  # gmail app password
 flask_url = "http://127.0.0.1:5000/predict"  # phishing detection API
 notify_url = "http://127.0.0.1:5000/notify"
+MODEL_PATH = "current_model.txt"
+
+def get_current_model():
+    try:
+        with open(MODEL_PATH, "r") as f:
+            return f.read().strip()
+    except Exception as e:
+        print(f"Error reading model file: {e}. Falling back to 'svc_model.pkl'")
+        return "svc_model.pkl"
 
 def check_inbox():
     # connect to gmail
@@ -42,6 +51,8 @@ def check_inbox():
         print("Date:", message["Date"])
         print("Body:",body)
 
+        selected_model = get_current_model()
+
         # Prompt: Generate Python code to send a POST request with JSON data to a Flask API and handle the response (GenAI)
         # Send to Flask API for phishing prediction
         try:
@@ -52,7 +63,8 @@ def check_inbox():
                 "subject": message["Subject"],
                 "from": message["From"],
                 "prediction": result,
-                "text": body  # Include full email body for LIME
+                "text": body,  # Include full email body for LIME
+                "selected_model": selected_model
             }
 
             notify_response = requests.post(notify_url, json=notify_data)

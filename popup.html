@@ -1,222 +1,294 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <!-- https://www.w3schools.com/icons/fontawesome_icons_intro.asp -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>Phishcord</title>
-  <style>
-    
-    body {
-      margin: 0;
-      padding: 10px;
-      background-color: #437ecb;
-      font-family: Helvetica;
-      display: flex;
-      justify-content: center; /* https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content */
-    }
-    h1 {
-      text-align: center;
-      font-size: 30px;
-      margin-bottom: 15px;
-      color: white;
-    }
-    h2 {
-      text-align: center;
-      font-size: 18px;
-      color: white;
-    }
-    img {
-      display: block;
-      margin: auto;
-      width: 100px;
-      height: 100px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      height: 200px;
-    }
-    label {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    textarea {
-      height: 100px;
-      resize: none;
-      font-size: 16px;
-      padding: 10px;
-      background-color: #75a0d9;
-      color: white;
-      border-radius: 10px;
-      /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
-      border-width: 0;
-    }
-    /* https://getcssscan.com/css-buttons-examples */
-    button {
-      background-color: white;
-      border-radius: 10px;
-      color: #437ecb;
-      font-family: Helvetica;
-      font-size: 20px;
-      font-weight: 600;
-      padding: 8px;
-      text-align: center;
-      transition: transform 0.1s ease-in-out;
-      outline: none!important;
-      width: 100%;
-      margin: 0 auto;
-      border-width: 0;
-      position: relative;
-      top: -5px; /* up */ 
-    }
+  <head>
+    <!-- https://www.w3schools.com/icons/fontawesome_icons_intro.asp -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Phishcord</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 10px;
+        background-color: #437ecb;
+        font-family: Helvetica;
+        display: flex;
+        justify-content: center;
+        /* https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content */
+      }
 
-    button:hover {
-      transform: scale(1.1);
-    }
+      h1 {
+        text-align: center;
+        font-size: 30px;
+        color: white;
+      }
 
-   
+      h2 {
+        text-align: center;
+        font-size: 18px;
+        color: white;
+      }
 
-    p {
-      text-align: center;
-      font-size: 16px;
-      
-      color: white;
-    }
-    hr { /* https://www.w3schools.com/howto/howto_css_style_hr.asp */
-      width: 100%;
-      border: none;
-      border-top: 1px solid white;
-      margin-top: 20px
-    }
-    #blueDiv {
-      height: 40px;
-      resize: none;
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    }
-    #b-blueDiv {
-      height: 40px;
-      resize: none;
-      background-color: #75a0d9;
-      border-radius: 10px;
-      position: relative;
-      top: 15px; /* up */ 
-    }
-    #blueDiv_big {
-      height: auto;
-      resize: none;
-      border-radius: 10px;
-      background-color: #75a0d9;
-      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    }
-    #settingDiv, #manualDiv, #lime-explanation {
-      height: auto;
-      resize: none;
-      visibility: visible;
-      opacity: 1; /* Make it fully visible */
-      transition: opacity 0.2s ease, visibility 0.2s ease;
-      /*background-color: #75a0d9;*/
-      /*border-radius: 11px;*/
-      /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-      padding-left: 10px;
-      color: #ffffff;
-    }
-    #settingDiv.hidden, #manualDiv.hidden {
-    visibility: hidden; /* Keep it hidden but maintain space */
-    opacity: 0; /* Make it invisible */
-    max-height: 0; /* Remove its height to avoid space being reserved */
-    }
-    .volume-toggle, .setting-toggle, .manual-toggle, .auto-toggle {
-      margin-left: 35px;
-      margin-top: 5px;
-      font-size: 30px;
-      color: #437ecb;
-      cursor: pointer;
-      transition: transform 0.1s ease-in-out;
-    }
-    .volume-toggle:hover, .setting-toggle:hover, .manual-toggle:hover, .auto-toggle:hover {
-      transform: scale(1.15);
-    }
-    .loading-icon {
-      position: relative;
-      top: 7px; /* move down */
-    }
-    #prediction-result {
-      position: relative;
-      top: -16px; /* move down */
-    }
-/* */
+      img {
+        display: block;
+        margin: auto;
+        width: 100px;
+        height: 100px;
+      }
 
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 200px;
+      }
 
-/* https://developer.chrome.com/blog/a-customizable-select */
-/* Chrome 135 required */
-select {
-  &, &::picker(select) {
-    appearance: base-select;   
-    background-color: #75a0d9;
-    color: #fff;
-    font-size: larger;
-    font-weight: bold;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    border-width: 0;
-    padding: 8px;
-  }
-}
-/* */
-</style>
+      label {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
 
-</head>
-<body>
-  <div class="container">
-    <h1>PHISHCORD</h1>
-    <!--<img src="img/icon16.jpg" alt="Logo">-->
-    <div id="blueDiv">
-      <!-- https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-volume-up -->
-      <i id="SettingIcon" class="fa fa-cog setting-toggle" aria-hidden="true"></i>
-      <i id="manualIcon" class="fa fa-keyboard-o manual-toggle" aria-hidden="true"></i>
-      <i id="volumeIcon" class="fa fa-volume-up volume-toggle" aria-hidden="true"></i> 
+      textarea {
+        height: 100px;
+        resize: none;
+        font-size: 16px;
+        padding: 10px;
+        background-color: #75a0d9;
+        color: white;
+        border-radius: 10px;
+        /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+        border-width: 0;
+      }
 
-    </div>
-    <div id="settingDiv" class="hidden">
-      <hr>
-      <h2>CHOOSE A MODEL</h2>
+      /* https://getcssscan.com/css-buttons-examples */
+      button {
+        background-color: white;
+        border-radius: 10px;
+        color: #437ecb;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: 600;
+        padding: 8px;
+        text-align: center;
+        transition: transform 0.1s ease-in-out;
+        outline: none !important;
+        width: 100%;
+        margin: 0 auto;
+        border-width: 0;
+        position: relative;
+        top: -5px;
+        /* up */
+      }
+
+      button:hover {
+        transform: scale(1.1);
+      }
+
+      p {
+        text-align: center;
+        font-size: 11çpx;
+        color: white;
+      }
+
+      hr {
+        /* https://www.w3schools.com/howto/howto_css_style_hr.asp */
+        width: 100%;
+        border: none;
+        border-top: 1px solid white;
+        margin-top: 20px;
+      }
+
+      #blueDiv {
+        height: 40px;
+        resize: none;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+
+      #b-blueDiv {
+        height: auto;
+        resize: none;
+        background-color: #75a0d9;
+        border-radius: 10px;
+        position: relative;
+        top: 15px;
+        /* up */
+      }
+
+      #blueDiv_big {
+        height: auto;
+        resize: none;
+        border-radius: 10px;
+        background-color: #75a0d9;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+
+      #settingDiv,
+      #manualDiv,
+      #autoDiv,
+      #lime-explanation,
+      #lime-explanation-auto,
+      #result-explanation-auto-extra {
+        height: auto;
+        resize: none;
+        visibility: visible;
+        opacity: 1;
+        /* Make it fully visible */
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        /*background-color: #75a0d9;*/
+        /*border-radius: 11px;*/
+        /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        padding-left: 10px;
+        color: #ffffff;
+      }
+
+      #settingDiv.hidden,
+      #manualDiv.hidden {
+        visibility: hidden;
+        /* Keep it hidden but maintain space */
+        opacity: 0;
+        /* Make it invisible */
+        max-height: 0;
+        /* Remove its height to avoid space being reserved */
+      }
+
+      .volume-toggle,
+      .setting-toggle,
+      .manual-toggle,
+      .auto-toggle {
+        margin-left: 35px;
+        margin-top: 5px;
+        font-size: 30px;
+        color: #437ecb;
+        cursor: pointer;
+        transition: transform 0.1s ease-in-out;
+      }
+
+      .volume-toggle:hover,
+      .setting-toggle:hover,
+      .manual-toggle:hover,
+      .auto-toggle:hover {
+        transform: scale(1.15);
+      }
+
+      .loading-icon {
+        position: relative;
+        top: 15px;
+        /* move down */
+      }
+
+      #prediction-result,
+      #prediction-result-auto {
+        position: relative;
+        top: -16px;
+        /* move down */
+      }
+
+      /* */
+
+      /* https://developer.chrome.com/blog/a-customizable-select */
+      /* Chrome 135 required */
+      select {
+        &,
+        &::picker(select) {
+          appearance: base-select;
+          background-color: #75a0d9;
+          color: #fff;
+          font-size: larger;
+          font-weight: bold;
+          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          border-width: 0;
+          padding: 8px;
+        }
+      }
+
+      /* */
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>PHISHCORD</h1>
+      <!--<img src="img/icon16.jpg" alt="Logo">-->
+      <div id="blueDiv">
+        <!-- https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-volume-up -->
+        <i
+          id="SettingIcon"
+          class="fa fa-cog setting-toggle"
+          aria-hidden="true"
+        ></i>
+        <i
+          id="manualIcon"
+          class="fa fa-keyboard-o manual-toggle"
+          aria-hidden="true"
+        ></i>
+        <i
+          id="volumeIcon"
+          class="fa fa-volume-up volume-toggle"
+          aria-hidden="true"
+        ></i>
+      </div>
+
+      <div id="settingDiv" class="hidden">
+        <hr />
+        <h2>CHOOSE A MODEL</h2>
         <select id="model-select">
           <option value="svc_model.pkl">SVC</option>
           <option value="rf_model.pkl">Random Forest</option>
           <option value="nb_model.pkl">Naive Bayes</option>
           <option value="xg_model.pkl">XGBoost</option>
         </select>
-    </div>
-    <div id="manualDiv">
-      <hr>
+      </div>
+
+      <div id="manualDiv" class="hidden">
+      <hr />
       <form id="email-form">
         <h2>MANUAL DETECT</h2>
         <textarea id="email-text"></textarea>
-        <br>
-      <button id= "submit-button"><i class="fa fa-search" aria-hidden="true"></i> PREDICT</button> 
-    </form>
-    <div id="b-blueDiv">
-    <h1 id="prediction-result"><i class="fa fa-spinner loading-icon fa-spin" aria-hidden="true"></i></h1>
-    </div>
-    <div id="blueDiv_big">
-    <p id="lime-explanation"></p>
-    </div>
-    </div>
-    <hr>
-    <h2>AUTO DETECT</h2>
-    <button id="toggle-script"><i class="fa fa-play" aria-hidden="true"></i> START</button>
-    <p id="prediction-result-auto"></p>
-    <div id="lime-explanation-auto" style="color: white; text-align: center; margin-top: 20px;"></div>
-    
-    
+        <br />
+        <button id="submit-button">
+          <i class="fa fa-search" aria-hidden="true"></i> PREDICT
+        </button>
+      </form>
 
+      <div id="b-blueDiv">
+        <h1 id="prediction-result">
+          <i class="fa fa-spinner loading-icon fa-spin" aria-hidden="true"></i>
+        </h1>
+      </div>
 
-  
-  <script src="popup.js"></script>
-</body>
+      <div id="blueDiv_big">
+        <p id="lime-explanation"></p>
+      </div>
+    </div>
+
+    <div id="autoDiv">
+      <hr />
+      <h2>AUTO DETECT</h2>
+      <button id="toggle-script">
+        <i class="fa fa-play" aria-hidden="true"></i> START
+      </button>
+
+      <div id="b-blueDiv">
+        <h1 id="prediction-result-auto">
+          <i class="fa fa-spinner loading-icon fa-spin" aria-hidden="true"></i>
+        </h1>
+        <p id="prediction-result-auto-extra"></p>
+      </div>
+
+      <div id="blueDiv_big">
+        <p id="lime-explanation-auto"></p>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
 </html>

@@ -1,5 +1,5 @@
 # https://www.youtube.com/watch?v=Jxj_jfh4IDk 
-from flask import Flask, request, jsonify, render_template, Response
+from flask import Flask, request, jsonify, render_template, Response, session
 import pickle
 import numpy as np
 from flask_cors import CORS
@@ -13,6 +13,7 @@ from sklearn.pipeline import make_pipeline
 
 app = Flask(__name__)
 CORS(app)
+app.secret_key = 'hi'
 
 imap_process = None
 prediction_queue = queue.Queue()
@@ -32,7 +33,7 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     text = request.json.get('text')
-    model_file = request.json.get('model', 'svc_model.pkl')  # default to SVC
+    model_file = request.json.get('selected_model', 'svc_model.pkl')  # default to SVC
     if text is not None:
         # Load selected model
         with open(model_file, 'rb') as f:
@@ -71,9 +72,13 @@ def start_script():
 def stop_script():
     global imap_process
     if imap_process is not None:
-        os.kill(imap_process.pid, signal.SIGTERM)
-        imap_process = None
-        return "Stopped IMAP script", 200
+        try:
+            os.kill(imap_process.pid, signal.SIGTERM)  # Send SIGTERM to terminate the process
+            imap_process = None
+            return "Stopped IMAP script", 200
+        except Exception as e:
+            print(f"Error stopping IMAP script: {e}")
+            return f"Error stopping IMAP script: {e}", 500
     else:
         return "IMAP script not running", 404
     
@@ -83,13 +88,27 @@ def notify():
     if not data or 'prediction' not in data or 'subject' not in data or 'text' not in data:
         return jsonify({'error': 'Invalid data'}), 400
 
+    model_file = data.get('selected_model', 'svc_model.pkl')  # Default model if none provided
+
     try:
-        # Generate explanation from text
+        # Load selected model
+        with open(model_file, 'rb') as f:
+            selected_model = pickle.load(f)
+
+        # Build pipeline and explainer dynamically
+        pipeline = make_pipeline(vectorizer, selected_model)
+        class_names = ['Regular', 'Phishing']
+        explainer = LimeTextExplainer(class_names=class_names)
+
+        # Generate explanation
         exp = explainer.explain_instance(data['text'], pipeline.predict_proba, num_features=6)
         explanation = exp.as_list()
-        data['explanation'] = explanation  # Add to data dict
 
+        data['explanation'] = explanation
+
+        # Queue the enhanced data for the stream
         prediction_queue.put(data)
+
         return jsonify({'status': 'Notification received'}), 200
 
     except Exception as e:
@@ -97,11 +116,17 @@ def notify():
 
 @app.route('/stream')
 def stream():
-    def event_stream():
+    def generate():
         while True:
-            data = prediction_queue.get()
-            yield f"data: {json.dumps(data)}\n\n"
-    return Response(event_stream(), mimetype="text/event-stream")
+            try:
+                # Wait up to 10 seconds for new prediction data
+                data = prediction_queue.get(timeout=10)
+                yield f"data: {json.dumps(data)}\n\n"
+            except queue.Empty:
+                # No new data in 10s, send a keep-alive (optional)
+                yield "data: {}\n\n"
+
+    return Response(generate(), mimetype='text/event-stream')
 
 
 if __name__ == '__main__':
