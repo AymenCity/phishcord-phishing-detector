@@ -145,7 +145,7 @@ document.getElementById("volumeIcon").addEventListener("click", () => {
   // https://www.tutorialspoint.com/how-to-hide-a-div-in-javascript-on-button-click#:~:text=To%20hide%20a%20div%20in%20JavaScript%20on%20button%20click%2C%20we,display%20the%20hidden%20div%20again.
   // https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056#36349056
   // shows & hides div
-  document.getElementById("SettingIcon").addEventListener("click", hideSetting);
+  document.getElementById("settingIcon").addEventListener("click", hideSetting);
   document.getElementById("manualIcon").addEventListener("click", hideManual);
 
   function hideSetting() {

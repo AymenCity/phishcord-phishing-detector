@@ -22,7 +22,7 @@ def get_current_model():
         with open(MODEL_PATH, "r") as f:
             return f.read().strip()
     except Exception as e:
-        print(f"Error reading model file: {e}. Falling back to 'svc_model.pkl'")
+        print("Error reading model file: " + str(e) + ". Falling back to 'svc_model.pkl'")
         return "svc_model.pkl"
 
 # checks email inbox for any unseen emails
@@ -82,16 +82,16 @@ def check_inbox():
             else:
                 print("This email is Regular.")
         except Exception as e:
-            print(f"Prediction error: {e}")
+            print("Prediction error: " + str(e))
 
     imap.logout()
 
-# loops forever, checking inbox every 10 seconds
+# loops forever, checking inbox every 5 seconds
 if __name__ == "__main__":
     print("Email phishing detector is running...")
     while True:
         try:
             check_inbox()
         except Exception as e:
-            print(f"Something went wrong: {e}")
-        time.sleep(10)  # Wait before next check
+            print("Something went wrong: " + str(e))
+        time.sleep(5) 

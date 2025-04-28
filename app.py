@@ -15,9 +15,10 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = os.urandom(24) # https://stackoverflow.com/questions/34902378/where-do-i-get-secret-key-for-flask
 
-# global variables
+# global variables / constants
 imap_process = None #tracks imap listener process
 prediction_queue = queue.Queue() #queue for server-sent events 
+CLASS_NAMES = ['Regular', 'Phishing'] #labels to be used for the lime explanation
 
 # load vectoriser
 with open('vector.pkl', 'rb') as f:
@@ -28,6 +29,7 @@ def load_model(model_file='svc_model.pkl'):
     with open(model_file, 'rb') as f:
         model = pickle.load(f)
     pipeline = make_pipeline(vectorizer, model) #creates pipeline
+    print("Loaded model:", model_file) 
     return model, pipeline
 
 # routes
@@ -46,7 +48,7 @@ def set_model():
         # Save to disk
         with open("current_model.txt", "w") as f:
             f.write(selected_model)
-        return jsonify({"message": f"Model set to {selected_model}"}), 200
+        return jsonify({"message": "Model set to " + selected_model}), 200
     else:
         return jsonify({"error": "No model provided"}), 400
 
@@ -59,8 +61,7 @@ def predict():
         selected_model, pipeline = load_model(model_file) #load model and pipeline
         
         # setup lime explainer
-        class_names = ['Regular', 'Phishing']
-        explainer = LimeTextExplainer(class_names=class_names)
+        explainer = LimeTextExplainer(class_names=CLASS_NAMES)
 
         # generates prediction
         text_transformed = vectorizer.transform([text])
@@ -104,10 +105,10 @@ def stop_script():
             imap_process = None
             return jsonify({"status": "Stopped IMAP script"}), 200
         except Exception as e:
-            print(f"Error stopping IMAP script: {e}")
+            print("Error stopping IMAP script:", e)
             return jsonify({"error": "Error stopping IMAP script"}), 500
     else:
-        return jsonify({"error": "IMAP script not runnin"}), 404
+        return jsonify({"error": "IMAP script not running"}), 404
     
 # receives new email prediction and puts it in a queue for streaming 
 @app.route('/notify', methods=['POST'])
@@ -122,8 +123,7 @@ def notify():
         selected_model, pipeline = load_model(model_file)
 
         # Build pipeline and explainer dynamically
-        class_names = ['Regular', 'Phishing']
-        explainer = LimeTextExplainer(class_names=class_names)
+        explainer = LimeTextExplainer(class_names=CLASS_NAMES)
 
         # Generate explanation
         exp = explainer.explain_instance(data['text'], pipeline.predict_proba, num_features=6)
@@ -136,7 +136,7 @@ def notify():
         return jsonify({'status': 'Notification received'}), 200
 
     except Exception as e:
-        return jsonify({'error': f"LIME explanation error: {e}"}), 500
+        return jsonify({'error': "LIME explanation error: " + str(e)}), 500 # exception object need to be converted to string
 
 # streams predictions to server-sent events
 @app.route('/stream')
@@ -146,7 +146,7 @@ def stream():
             try:
                 # Wait up to 10 seconds for new prediction data
                 data = prediction_queue.get(timeout=10)
-                yield f"data: {json.dumps(data)}\n\n"
+                yield "data: " + json.dumps(data) + "\n\n"
             except queue.Empty:
                 # No new data in 10s, send a keep-alive (optional)
                 yield "data: {}\n\n"
