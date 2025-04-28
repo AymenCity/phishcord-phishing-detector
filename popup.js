@@ -60,8 +60,14 @@ form.addEventListener("submit", async (event) => {
 });
 
 // start / stop
-let scriptRunning = false;
+// implements with local storage to remember what state the start / stop is when closed
+let scriptRunning = localStorage.getItem("scriptRunning") === "true"; 
 const toggleButton = document.getElementById("toggle-script");
+
+// Initialize button text based on scriptRunning state
+toggleButton.innerHTML = scriptRunning
+  ? '<i class="fa fa-stop" aria-hidden="true"></i> STOP'
+  : '<i class="fa fa-play" aria-hidden="true"></i> START';
 
 toggleButton.addEventListener("click", async () => {
   const endpoint = scriptRunning ? "stop" : "start";
@@ -73,6 +79,8 @@ toggleButton.addEventListener("click", async () => {
 
     if (response.ok) {
       scriptRunning = !scriptRunning;
+      localStorage.setItem("scriptRunning", scriptRunning); // Save state to localStorage
+
       toggleButton.innerHTML = scriptRunning
         ? '<i class="fa fa-stop" aria-hidden="true"></i> STOP'
         : '<i class="fa fa-play" aria-hidden="true"></i> START';
