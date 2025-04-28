@@ -144,11 +144,11 @@ def stream():
     def generate():
         while True:
             try:
-                # Wait up to 10 seconds for new prediction data
-                data = prediction_queue.get(timeout=10)
+                # Wait up to 5 seconds for new prediction data
+                data = prediction_queue.get(timeout=5)
                 yield "data: " + json.dumps(data) + "\n\n"
             except queue.Empty:
-                # No new data in 10s, send a keep-alive (optional)
+                # No new data in 5s, send a keep-alive (optional)
                 yield "data: {}\n\n"
 
     return Response(generate(), mimetype='text/event-stream')

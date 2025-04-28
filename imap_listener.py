@@ -1,20 +1,29 @@
 # https://medium.com/@amnahhmohammed/natural-language-processing-for-emails-9c1cf5f74f48
-# https://answers.microsoft.com/en-us/outlook_com/forum/all/python-connect-to-outlook-server-using-imap-has/ced6dc9f-2f0d-44a1-b582-7a2416b00de8 
+# https://dev.to/jakewitcher/using-env-files-for-environment-variables-in-python-applications-55a1 
 import imaplib
 import email
 import time
 import requests
+import os
+from dotenv import load_dotenv
 
-# login details
-user_email = "aymenimap@gmail.com"
-password = "ivnf yavk wonz ffjx"  # gmail app password
-imap_server = "imap.gmail.com" # default imap server for gmail
-# To switch to Outlook, uncomment the next line 
-# imap_server = "outlook.office365.com" # if email is using outlook
+'''
+Instructions to configure email:
+1. Go to .env file
+2. Replace 'user_email' with your own Gmail email address
+3. Replace 'password' with an App Password (not your actual password)
+'''
 
-flask_url = "http://127.0.0.1:5000/predict"  # url for phishing detection API
-notify_url = "http://127.0.0.1:5000/notify" # url to notify frontend
-MODEL_PATH = "current_model.txt" # path to the specified model
+load_dotenv()
+
+# login details from environment variables
+user_email = os.getenv("USER_EMAIL")
+password = os.getenv("EMAIL_PASSWORD")
+imap_server = os.getenv("IMAP_SERVER")
+
+flask_url = os.getenv("FLASK_URL")
+notify_url = os.getenv("NOTIFY_URL")
+MODEL_PATH = os.getenv("MODEL_PATH")
 
 # gets model from file
 def get_current_model():
@@ -60,8 +69,7 @@ def check_inbox():
 
         selected_model = get_current_model()
 
-        # Prompt: Generate Python code to send a POST request with JSON data to a Flask API and handle the response (GenAI)
-        # Send to Flask API for phishing prediction
+        # sends to Flask API for phishing prediction
         try:
             response = requests.post(flask_url, json={"text": body})
             result = response.json().get("prediction")
