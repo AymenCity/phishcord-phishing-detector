@@ -1,4 +1,5 @@
 # https://medium.com/@amnahhmohammed/natural-language-processing-for-emails-9c1cf5f74f48
+# https://answers.microsoft.com/en-us/outlook_com/forum/all/python-connect-to-outlook-server-using-imap-has/ced6dc9f-2f0d-44a1-b582-7a2416b00de8 
 import imaplib
 import email
 import time
@@ -7,10 +8,15 @@ import requests
 # login details
 user_email = "aymenimap@gmail.com"
 password = "ivnf yavk wonz ffjx"  # gmail app password
-flask_url = "http://127.0.0.1:5000/predict"  # phishing detection API
-notify_url = "http://127.0.0.1:5000/notify"
-MODEL_PATH = "current_model.txt"
+imap_server = "imap.gmail.com" # default imap server for gmail
+# To switch to Outlook, uncomment the next line 
+# imap_server = "outlook.office365.com" # if email is using outlook
 
+flask_url = "http://127.0.0.1:5000/predict"  # url for phishing detection API
+notify_url = "http://127.0.0.1:5000/notify" # url to notify frontend
+MODEL_PATH = "current_model.txt" # path to the specified model
+
+# gets model from file
 def get_current_model():
     try:
         with open(MODEL_PATH, "r") as f:
@@ -19,9 +25,10 @@ def get_current_model():
         print(f"Error reading model file: {e}. Falling back to 'svc_model.pkl'")
         return "svc_model.pkl"
 
+# checks email inbox for any unseen emails
 def check_inbox():
-    # connect to gmail
-    imap = imaplib.IMAP4_SSL("imap.gmail.com")
+    # connect to specified imap server
+    imap = imaplib.IMAP4_SSL(imap_server)
     imap.login(user_email, password)
 
     # search for unseen emails
@@ -79,7 +86,7 @@ def check_inbox():
 
     imap.logout()
 
-# Loop forever, checking inbox every 10 seconds
+# loops forever, checking inbox every 10 seconds
 if __name__ == "__main__":
     print("Email phishing detector is running...")
     while True:
