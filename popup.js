@@ -1,3 +1,4 @@
+// sets selected model for auto detection
 const modelSelectAuto = document.getElementById('model-select');
 modelSelectAuto.addEventListener('change', async () => {
   const selectedModel = modelSelectAuto.value;
@@ -14,7 +15,6 @@ modelSelectAuto.addEventListener('change', async () => {
     console.error('Failed to set model for auto detection:', err);
   }
 });
-
 
 // https://www.youtube.com/watch?v=Jxj_jfh4IDk
 // manual detection - predict
@@ -59,9 +59,8 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-// start / stop
-// implements with local storage to remember what state the start / stop is when closed
-let scriptRunning = localStorage.getItem("scriptRunning") === "true"; 
+// toggles state of script (start / stop)
+let scriptRunning = localStorage.getItem("scriptRunning") === "true"; // implements with local storage to remember what state the start / stop is when closed
 const toggleButton = document.getElementById("toggle-script");
 
 // Initialize button text based on scriptRunning state
@@ -92,16 +91,16 @@ toggleButton.addEventListener("click", async () => {
   }
 });
 
-// changes icon of sound
+// sound mute functionality
 let isMuted = false;
 document.getElementById("volumeIcon").addEventListener("click", () => {
   isMuted = !isMuted;
   document
     .getElementById("volumeIcon")
-    .classList.toggle("fa-volume-up", !isMuted);
+    .classList.toggle("fa-volume-up", !isMuted); // changes icon of sound
   document
     .getElementById("volumeIcon")
-    .classList.toggle("fa-volume-off", isMuted);
+    .classList.toggle("fa-volume-off", isMuted); // changes icon of sound
 });
 
 // auto detection - stream
@@ -110,7 +109,7 @@ document.getElementById("volumeIcon").addEventListener("click", () => {
   stream.onmessage = function(event) {
     const data = JSON.parse(event.data);
   
-    // Only update if there's actually a subject and from field
+    // updates if there's a subject and from field
     if (data.subject && data.from) {
       const resultDiv = document.getElementById('prediction-result-auto');
       const resultDiv_extra = document.getElementById('prediction-result-auto-extra');
@@ -127,7 +126,7 @@ document.getElementById("volumeIcon").addEventListener("click", () => {
       resultDiv.innerText = summary;
       resultDiv_extra.innerText = summary_extra;
   
-      // Display LIME explanation if present
+      // LIME explanation
       const autoExplainDiv = document.getElementById('lime-explanation-auto');
       if (data.explanation) {
         autoExplainDiv.innerHTML = data.explanation
@@ -135,32 +134,48 @@ document.getElementById("volumeIcon").addEventListener("click", () => {
           .join('<br>');
       }
   
-      // Optional: play sound only when real data arrives
+      // plays sound only when data arrives
       if (!isMuted) {
         var myAudio = new Audio(chrome.runtime.getURL("audio.mp3"));
         myAudio.play();
       }
     }
   };
-  
-
-
-  //
 
   // https://www.tutorialspoint.com/how-to-hide-a-div-in-javascript-on-button-click#:~:text=To%20hide%20a%20div%20in%20JavaScript%20on%20button%20click%2C%20we,display%20the%20hidden%20div%20again.
   // https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056#36349056
   // shows & hides div
   document.getElementById("SettingIcon").addEventListener("click", hideSetting);
+  document.getElementById("manualIcon").addEventListener("click", hideManual);
 
   function hideSetting() {
     var divs = document.getElementById("settingDiv");
     divs.classList.toggle("hidden"); // Toggle the hidden class
   }
 
-  document.getElementById("manualIcon").addEventListener("click", hideManual);
-
   function hideManual() {
     var divs = document.getElementById("manualDiv");
     divs.classList.toggle("hidden"); // Toggle the hidden class
   }
 
+// syncs the status of script on page load
+async function syncScriptStatus() {
+  try {
+    const response = await fetch('http://127.0.0.1:5000/status');
+    if (response.ok) {
+      const data = await response.json();
+      scriptRunning = data.running;
+      localStorage.setItem("scriptRunning", scriptRunning);
+      toggleButton.innerHTML = scriptRunning
+        ? '<i class="fa fa-stop" aria-hidden="true"></i> STOP'
+        : '<i class="fa fa-play" aria-hidden="true"></i> START';
+    } else {
+      console.error('Failed to fetch server status');
+    }
+  } catch (error) {
+    console.error('Failed to fetch server status:', error);
+  }
+}
+
+// calls sync function when page loads
+syncScriptStatus();
