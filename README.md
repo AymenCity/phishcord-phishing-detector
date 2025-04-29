@@ -2,6 +2,38 @@
 * Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
 * INM450 Individual Project
 
+## 📁 Folder Structure
+.ipynb_checkpoints/
+    └── Phishcord-checkpoint.ipynb
+screenshots/
+    ├── .DS_Store
+    ├── guide.png
+    ├── manual.png
+    ├── settings.png
+    └── sound.png
+templates/
+    └── index.html
+.DS_Store
+.gitignore
+app.py
+audio.mp3
+background.js
+current_model.txt
+icon.png
+imap_listener.py
+manifest.json
+nb_model.pkl
+Phishcord.ipynb
+popup.html
+popup.js
+README.md
+requirements.txt
+rf_model.pkl
+svc_model.pkl
+vector.pkl
+xg_model.pkl
+
+
 ## 🔧 Installation
 To install Phishcord, follow these steps:
 1. Clone the repository (assuming you already have Git installed): 
