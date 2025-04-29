@@ -1,4 +1,4 @@
-# Project Title: Phishcord - AI-Powered Phishing Email Detector
+# Phishcord - AI-Powered Phishing Email Detector
 Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
 
 ## **Installation**
@@ -68,7 +68,7 @@ To use Phishcord, follow these steps:
     * Ensure that your Gmail account has 2-factor-authentication enabled
     * Create an [App Password](https://support.google.com/mail/answer/185833?hl=en-GB)
     * Rename `.env.example` to `.env`.
-    * Inside `.env`, update the following:
+    * Open `.env` with Notepad, update the following:
         * USER_EMAIL: your email address
         * USER_PASSWORD: your app password (not your actual password!)
     * Click the Start Button
