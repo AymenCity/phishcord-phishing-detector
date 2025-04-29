@@ -25,7 +25,7 @@ To use Phishcord, follow these steps:
     
     ![Settings Icon](screenshots/settings.png)
     * It will display a dropdown list where you can choose a model (SVC is on by default)
-    * Click on the setting icon again to hide the dropdown list
+    * (Click on the setting icon again to undisplay it)
 4. To manually test the detection:
     * Click on the keyboard icon (screenshot below)
     
@@ -33,6 +33,7 @@ To use Phishcord, follow these steps:
     * A text area will appear for you to type your message
     * Click the predict button
     * It will display the prediction and explanation result
+    * (Click on the keyboard icon again to undisplay it)
 5. To auto detect with your email:
     * Go to Gmail and login with your account
     * Ensure that your Gmail account has 2-factor-authentication enabled
@@ -42,24 +43,21 @@ To use Phishcord, follow these steps:
         * USER_EMAIL: your email address
         * USER_PASSWORD: your app password (not your actual password!)
     * Click the Start Button
-    * Send an email to yourself (or receive one from another email address)!
-
+    * Send an email to the email you have specified on .env
+    * Once email has been picked up, you shall receive an alert sound with its prediction & explanation result
 
 ## **License**
-
 * This project is licensed under the MIT License.
 
 ## **Dataset Acknowledgment**
-
 * This project used the **Phishing Email Dataset** dataset, available on https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset/data.  
 * The dataset is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).
 * All rights to the dataset belong to the original creators.
 
 ## **FAQ**
-
 **Q:** What is Phishcord?
 
-**A:** Phishcord deliver a Google Chrome extension of an AI-powered phishing detector that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
+**A:** Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
 
 **Q:** How do I install Phishcord?
 
@@ -73,13 +71,20 @@ To use Phishcord, follow these steps:
 
 **A:** Ensure that app.py is running. If it is running, then you may have terminated app.py (Ctrl+C terminal) whilst the Start/Stop was toggled as another state. If this occurs, close and open the extension from clicking the Extension icon on Chrome. The software will fix itself by checking the status of the imap process.
 
+**Q:** The results isn't showing up when auto-detecting, how do I fix?
+
+**A:** Ensure that app.py is running. If it is running, then terminate and run app.py again, click the Start button and send an email to the email you have specified on .env - the likelihood of this occurring since I've implemented sessions.
+
+**Q:** Do I need to have the Gmail website to be displayed when auto-detecting?
+
+**A:** No.
+
 **Q:** How do I disable the alert sound when it detects? 
 
-**A:** Click on the sound icon (screenshot below)
+**A:** Click on the sound icon to toggle the alert sound on/off. (screenshot below)
 
 ![sound](screenshots/sound.png)
 
 
 ## **Thank you**
-
 The format of my README guide was inspired from https://medium.com/@sumudithalanz/the-art-of-crafting-an-effective-readme-for-your-github-project-cf425a8b1580 
