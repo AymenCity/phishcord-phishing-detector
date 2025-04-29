@@ -20,7 +20,7 @@ phishcord-phishing-detector/
 ├── nb_model.pkl                        # Naive Bayes model
 ├── Phishcord.ipynb                     # Notebook used for analysing/training/testing dataset
 ├── popup.html                          # Chrome extension - UI
-├── popup.js                            # Chrome extension logic
+├── popup.js                            # Chrome extension - logic
 ├── README.md                           # Project instructions and usage
 ├── requirements.txt                    # Python dependencies
 ├── rf_model.pkl                        # Random Forest model
