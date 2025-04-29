@@ -1,7 +1,7 @@
 # Phishcord - AI-Powered Phishing Email Detector
 Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
 
-## ** 🔧 Installation**
+## 🔧 Installation
 To install Phishcord, follow these steps:
 1. Clone the repository (assuming you already have Git installed): 
     * Open Terminal or Command Prompt
@@ -39,7 +39,7 @@ To install Phishcord, follow these steps:
         python app.py
         ```
  
-## **🚀 Usage**
+## 🚀 Usage
 To use Phishcord, follow these steps:
 
 1. Open Google Chrome
@@ -74,15 +74,15 @@ To use Phishcord, follow these steps:
     * Send an email to the email you have specified on .env
     * Once email has been picked up, you shall receive an alert sound with its prediction & explanation result
 
-## **📄 License**
+## 📄 License
 * This project is licensed under the MIT License.
 
-## **📊 Dataset Acknowledgment**
+## 📊 Dataset Acknowledgment
 * This project used the **Phishing Email Dataset** dataset, available on https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset/data.  
 * The dataset is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).
 * All rights to the dataset belong to the original creators.
 
-## **❓ FAQ**
+## ❓ FAQ
 **Q:** How do I install Phishcord?
 
 **A:** Follow the installation steps in the README file.
