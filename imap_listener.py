@@ -9,9 +9,7 @@ from dotenv import load_dotenv
 
 '''
 Instructions to configure email:
-1. Go to .env file
-2. Replace 'user_email' with your own Gmail email address
-3. Replace 'password' with an App Password (not your actual password)
+    * Read the README.md from https://github.com/AymenCity/phishcord-phishing-detector  
 '''
 
 load_dotenv()

@@ -9,6 +9,7 @@ import queue
 import json
 from lime.lime_text import LimeTextExplainer
 from sklearn.pipeline import make_pipeline
+import platform
 
 # flask setup
 app = Flask(__name__)
@@ -19,6 +20,9 @@ app.secret_key = os.urandom(24) # https://stackoverflow.com/questions/34902378/w
 imap_process = None #tracks imap listener process
 prediction_queue = queue.Queue() #queue for server-sent events 
 CLASS_NAMES = ['Regular', 'Phishing'] #labels to be used for the lime explanation
+
+# ensures that different platforms(mac/windows/linux) works when running the script
+python_version = "python3" if platform.system() != "Windows" else "python"
 
 # load vectoriser
 with open('vector.pkl', 'rb') as f:
@@ -90,7 +94,7 @@ def check_status():
 def start_script():
     global imap_process
     if imap_process is None:
-        imap_process = subprocess.Popen(["python3", "imap_listener.py"])
+        imap_process = subprocess.Popen([python_version, "imap_listener.py"])
         return jsonify({"status": "Started IMAP script"}), 200
     else:
         return jsonify({"error": "IMAP script already running"}), 409
