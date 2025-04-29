@@ -1,4 +1,5 @@
 # Project Title: Phishcord - AI-Powered Phishing Email Detector
+Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
 
 ## **Installation**
 To install Phishcord, follow these steps:
@@ -19,11 +20,15 @@ To install Phishcord, follow these steps:
 To use Phishcord, follow these steps:
 
 1. Open Google Chrome
-2. Activate Phishcord by clicking the Extension icon
+2. Activate Phishcord by clicking the Extension icon (screenshot below)
+
+![guide](screenshots/guide.png)
+
+
 3. To change the model:
-    * Click on the settings icon:
+    * Click on the settings icon (screenshot below)
     
-    ![Settings Icon](screenshots/settings.png)
+    ![settings](screenshots/settings.png)
     * It will display a dropdown list where you can choose a model (SVC is on by default)
     * (Click on the setting icon again to undisplay it)
 4. To manually test the detection:
@@ -34,7 +39,7 @@ To use Phishcord, follow these steps:
     * Click the predict button
     * It will display the prediction and explanation result
     * (Click on the keyboard icon again to undisplay it)
-5. To auto detect with your email:
+5. To **AUTO DETECT** with your email:
     * Go to Gmail and login with your account
     * Ensure that your Gmail account has 2-factor-authentication enabled
     * Create an App password (https://support.google.com/mail/answer/185833?hl=en-GB)
@@ -55,10 +60,6 @@ To use Phishcord, follow these steps:
 * All rights to the dataset belong to the original creators.
 
 ## **FAQ**
-**Q:** What is Phishcord?
-
-**A:** Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
-
 **Q:** How do I install Phishcord?
 
 **A:** Follow the installation steps in the README file.
@@ -73,7 +74,7 @@ To use Phishcord, follow these steps:
 
 **Q:** The results isn't showing up when auto-detecting, how do I fix?
 
-**A:** Ensure that app.py is running. If it is running, then terminate and run app.py again, click the Start button and send an email to the email you have specified on .env - the likelihood of this occurring since I've implemented sessions.
+**A:** Ensure that app.py is running. If it is running, then terminate and run app.py again, click the Start button and send an email to the email you have specified on .env - the likelihood of this occurring is lower ever since I've implemented sessions.
 
 **Q:** Do I need to have the Gmail website to be displayed when auto-detecting?
 
@@ -85,6 +86,9 @@ To use Phishcord, follow these steps:
 
 ![sound](screenshots/sound.png)
 
+**Q:** Why is SVC toggled on by default? What's the best model?
+
+**A:** Every model is different. This is why I have included the manual detection (via the keyboard icon from Step 4 of Usage) to allow you to choose your preference when testing each model. SVC has the highest accuracies but it's also the slowest out of the other models. The models (SVC, Random Forest, Naive Bayes and XGBoost) were all chosen due to its best performance in detecting phishing emails.
 
 ## **Thank you**
 The format of my README guide was inspired from https://medium.com/@sumudithalanz/the-art-of-crafting-an-effective-readme-for-your-github-project-cf425a8b1580 
