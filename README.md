@@ -1,5 +1,6 @@
 # Phishcord - AI-Powered Phishing Email Detector
 Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
+INM450 Individual Project
 
 ## 🔧 Installation
 To install Phishcord, follow these steps:
@@ -130,5 +131,5 @@ Try out the manual detection (see Usage Step 4) to test them yourself and see wh
 
 **A** Phishcord supports any email service that allows basic IMAP authentication using an email address and password (App Password). Unfortunately, some providers (like Outlook) have disabled this and require OAuth 2.0 authentication via Azure, which adds complexity and may involve paid plans. For now, Phishcord is optimised for Gmail.
 
-## **Thank you**
+## ❤️ Thank you
 The format of my README guide was inspired from https://medium.com/@sumudithalanz/the-art-of-crafting-an-effective-readme-for-your-github-project-cf425a8b1580 
