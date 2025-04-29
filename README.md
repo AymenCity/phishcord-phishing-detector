@@ -1,6 +1,6 @@
 # Phishcord - AI-Powered Phishing Email Detector
-Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
-INM450 Individual Project
+* Phishcord delivers a Google Chrome extension that aims to enhance the email security for Chrome users by implementing real-time detection and improving existing solutions.
+* INM450 Individual Project
 
 ## 🔧 Installation
 To install Phishcord, follow these steps:
