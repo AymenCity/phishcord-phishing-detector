@@ -19,11 +19,11 @@ load_dotenv()
 # login details from environment variables
 user_email = os.getenv("USER_EMAIL")
 password = os.getenv("EMAIL_PASSWORD")
-imap_server = os.getenv("IMAP_SERVER")
 
-flask_url = os.getenv("FLASK_URL")
-notify_url = os.getenv("NOTIFY_URL")
-MODEL_PATH = os.getenv("MODEL_PATH")
+imap_server="imap.gmail.com"
+flask_url ="http://127.0.0.1:5000/predict"
+notify_url="http://127.0.0.1:5000/notify"
+MODEL_PATH="current_model.txt"
 
 # gets model from file
 def get_current_model():
