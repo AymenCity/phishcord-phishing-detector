@@ -7,3 +7,4 @@ IMAPClient==3.0.1
 Jinja2==3.1.6
 xgboost==2.1.4
 python-dotenv==1.1.0
+numpy==1.26.4
